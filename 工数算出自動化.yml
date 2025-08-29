@@ -1,5 +1,7 @@
 app:
-  description: リシテア→工数エクセルへコピーできる形に変換
+  description: 'リシテア→工数エクセルへコピーできる形に変換
+
+    https://github.com/Hiroshi-Sato-r/timesheet-auto-entry'
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: workflow
@@ -186,10 +188,10 @@ workflow:
       id: '1756252012953'
       position:
         x: 30
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 30
-        y: 245.5
+        y: 266.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -409,10 +411,10 @@ workflow:
       id: '1756429594607'
       position:
         x: 636
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 636
-        y: 245.5
+        y: 266.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -431,10 +433,10 @@ workflow:
       id: '1756431858766'
       position:
         x: 333
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 333
-        y: 245.5
+        y: 266.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -575,10 +577,10 @@ workflow:
       id: '1756432324802'
       position:
         x: 939
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 939
-        y: 245.5
+        y: 266.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -617,10 +619,10 @@ workflow:
       id: '1756433529515'
       position:
         x: 1242
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 1242
-        y: 245.5
+        y: 266.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -661,10 +663,10 @@ workflow:
       id: '1756440239299'
       position:
         x: 1545
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 1545
-        y: 245.5
+        y: 266.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -714,10 +716,10 @@ workflow:
       id: '17564402550240'
       position:
         x: 1848
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 1848
-        y: 245.5
+        y: 266.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -786,10 +788,10 @@ workflow:
       id: '17564402622030'
       position:
         x: 2151
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 2151
-        y: 245.5
+        y: 266.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -809,10 +811,10 @@ workflow:
       id: '17564402695220'
       position:
         x: 2757
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 2757
-        y: 245.5
+        y: 266.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -848,7 +850,7 @@ workflow:
             \n【禁止事項】\n- 始業時間・終業時間セクションの数値を書き換えない。\n- 行の並べ替えや削除、新規行の挿入をしない（空行も含めて保持）。\n\
             - 説明文、コードフェンス、追加テキスト（例・注釈など）を一切出力に混在させない。\n\n【参考ミニ例（出力には含めない）】\n入力（勤務時間の一部）:\n\
             7:30\n8:00\n\n出力（勤務時間の同じ位置）:\n7.3\n8.0\n"
-        selected: true
+        selected: false
         title: LLM 9
         type: llm
         variables: []
@@ -858,16 +860,55 @@ workflow:
       id: '1756443799019'
       position:
         x: 2454
-        y: 245.5
+        y: 266.5
       positionAbsolute:
         x: 2454
-        y: 245.5
-      selected: true
+        y: 266.5
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 243
+    - data:
+        author: Hiroshi.Sato3
+        desc: ''
+        height: 275
+        selected: true
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"元データから
+          ","type":"text","version":1},{"detail":0,"format":1,"mode":"normal","style":"","text":"日次ブロック","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"
+          を抽出（氏名・日付などのメタ行を除外）","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"ブロックから
+          ","type":"text","version":1},{"detail":0,"format":1,"mode":"normal","style":"","text":"不要行（EWT行・備考・休日種別）","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"
+          を削除","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":2},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"ブロックから
+          ","type":"text","version":1},{"detail":0,"format":1,"mode":"normal","style":"","text":"±補正行","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"
+          を削除","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":3},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"ブロックから
+          ","type":"text","version":1},{"detail":0,"format":1,"mode":"normal","style":"","text":"±補正行＋非10分刻み時刻","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"
+          を削除","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":4},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"各ブロックを
+          ","type":"text","version":1},{"detail":0,"format":1,"mode":"normal","style":"","text":"開始時刻／終了時刻／実働時間の3行構成","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"
+          に整理","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":5},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"全ブロックを走査して
+          ","type":"text","version":1},{"detail":0,"format":1,"mode":"normal","style":"","text":"三つの縦リスト（始業／終業／勤務時間）","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"
+          に整形","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":6},{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"最後に「勤務時間」だけ
+          ","type":"text","version":1},{"detail":0,"format":16,"mode":"normal","style":"","text":"H:MM
+          → H.M","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":"
+          の表記変換を実施","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"listitem","version":1,"value":7}],"direction":"ltr","format":"","indent":0,"type":"list","version":1,"listType":"bullet","start":1,"tag":"ul"}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 438
+      height: 275
+      id: '1756454280768'
+      position:
+        x: 30
+        y: 443.50506249930106
+      positionAbsolute:
+        x: 30
+        y: 443.50506249930106
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 438
     viewport:
-      x: -3995.8474188721175
-      y: -101.29888352623561
-      zoom: 2
+      x: 366.49659490286484
+      y: 150.74373548748937
+      zoom: 1.0717734653828708
