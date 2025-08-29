@@ -201,7 +201,7 @@ workflow:
           variable_selector:
           - '1756431858766'
           - text
-        desc: ''
+        desc: 日次ブロックの抽出
         model:
           completion_params:
             temperature: 0.7
@@ -405,7 +405,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 89
+      height: 117
       id: '1756429594607'
       position:
         x: 636
@@ -419,7 +419,7 @@ workflow:
       type: custom
       width: 243
     - data:
-        desc: ''
+        desc: テキストファイルから中身を抽出
         is_array_file: false
         selected: false
         title: テキスト抽出
@@ -427,7 +427,7 @@ workflow:
         variable_selector:
         - '1756252012953'
         - kixntai_txt
-      height: 91
+      height: 119
       id: '1756431858766'
       position:
         x: 333
@@ -446,7 +446,7 @@ workflow:
           variable_selector:
           - '1756429594607'
           - text
-        desc: ''
+        desc: 不要な文章の削除
         model:
           completion_params:
             temperature: 0.7
@@ -571,7 +571,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 89
+      height: 117
       id: '1756432324802'
       position:
         x: 939
@@ -590,7 +590,7 @@ workflow:
           variable_selector:
           - '1756432324802'
           - text
-        desc: ''
+        desc: 不要な行の削除（EWT計算および休憩時間）
         model:
           completion_params:
             temperature: 0.7
@@ -613,7 +613,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 89
+      height: 133
       id: '1756433529515'
       position:
         x: 1242
@@ -632,7 +632,7 @@ workflow:
           variable_selector:
           - '1756433529515'
           - text
-        desc: ''
+        desc: 10分刻みでない情報の削除（PCloginや出勤タッチ時刻の削除）
         model:
           completion_params:
             temperature: 0.7
@@ -657,7 +657,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 89
+      height: 133
       id: '1756440239299'
       position:
         x: 1545
@@ -676,7 +676,7 @@ workflow:
           variable_selector:
           - '1756440239299'
           - text
-        desc: ''
+        desc: 日、業務開始時刻、業務終了時刻、業務時間を抽出
         model:
           completion_params:
             temperature: 0.7
@@ -710,7 +710,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 89
+      height: 133
       id: '17564402550240'
       position:
         x: 1848
@@ -729,7 +729,7 @@ workflow:
           variable_selector:
           - '17564402550240'
           - text
-        desc: ''
+        desc: 業務開始時刻、業務終了時刻、業務時間をそれぞれの項目で整列
         model:
           completion_params:
             temperature: 0.7
@@ -782,7 +782,7 @@ workflow:
         variables: []
         vision:
           enabled: false
-      height: 89
+      height: 133
       id: '17564402622030'
       position:
         x: 2151
@@ -824,7 +824,7 @@ workflow:
           variable_selector:
           - '17564402622030'
           - text
-        desc: ''
+        desc: 業務時間の表記を変更
         model:
           completion_params:
             temperature: 0.7
@@ -848,13 +848,13 @@ workflow:
             \n【禁止事項】\n- 始業時間・終業時間セクションの数値を書き換えない。\n- 行の並べ替えや削除、新規行の挿入をしない（空行も含めて保持）。\n\
             - 説明文、コードフェンス、追加テキスト（例・注釈など）を一切出力に混在させない。\n\n【参考ミニ例（出力には含めない）】\n入力（勤務時間の一部）:\n\
             7:30\n8:00\n\n出力（勤務時間の同じ位置）:\n7.3\n8.0\n"
-        selected: false
+        selected: true
         title: LLM 9
         type: llm
         variables: []
         vision:
           enabled: false
-      height: 89
+      height: 117
       id: '1756443799019'
       position:
         x: 2454
@@ -862,12 +862,12 @@ workflow:
       positionAbsolute:
         x: 2454
         y: 245.5
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 243
     viewport:
-      x: 32.299324033550874
-      y: -48.48993947035717
+      x: -3995.8474188721175
+      y: -101.29888352623561
       zoom: 2
