@@ -1,0 +1,756 @@
+app:
+  description: リシテア→工数エクセルへコピーできる形に変換
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 工数算出自動化
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/azure_openai:0.0.20@01e82382fa5c7dec994cad1a5a80a73b3d845e4b54fc5e22bbcc57cf296c3f5b
+kind: app
+version: 0.3.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 5
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1756252012953-source-1756431858766-target
+      source: '1756252012953'
+      sourceHandle: source
+      target: '1756431858766'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1756431858766-source-1756429594607-target
+      source: '1756431858766'
+      sourceHandle: source
+      target: '1756429594607'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1756429594607-source-1756432324802-target
+      source: '1756429594607'
+      sourceHandle: source
+      target: '1756432324802'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1756432324802-source-1756433529515-target
+      source: '1756432324802'
+      sourceHandle: source
+      target: '1756433529515'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1756433529515-source-1756433845707-target
+      source: '1756433529515'
+      sourceHandle: source
+      target: '1756433845707'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1756433845707-source-1756434666605-target
+      source: '1756433845707'
+      sourceHandle: source
+      target: '1756434666605'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1756434666605-source-1756252070631-target
+      source: '1756434666605'
+      sourceHandle: source
+      target: '1756252070631'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 開始
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          label: kixntai_txt
+          max_length: 48
+          options: []
+          required: true
+          type: file
+          variable: kixntai_txt
+      height: 89
+      id: '1756252012953'
+      position:
+        x: 30
+        y: 245.5
+      positionAbsolute:
+        x: 30
+        y: 245.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1756434666605'
+          - text
+          variable: text
+        selected: false
+        title: 終了
+        type: end
+      height: 89
+      id: '1756252070631'
+      position:
+        x: 2106.5
+        y: 235.5
+      positionAbsolute:
+        x: 2106.5
+        y: 235.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1756431858766'
+          - text
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt4o-dify-t000-240806
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 2d0d1790-3bdf-48c1-a7b0-b3d68397a914
+          role: system
+          text: 'あなたは与えられた勤怠データテキストから、月→日→曜日→情報→空行 の並びで構成される「日次ブロック」を抽出して出力するAIです。
+
+
+            【入力データ】
+
+            {{#1756431858766.text#}}
+
+            ※上の変数名はあなたのワークフローの「テキスト抽出」出力名に合わせて変更してください（例: {{ text }} など）。
+
+
+            【目的】
+
+            「月を表す数字だけの行」から始まり、次の空行の直前までを1ブロックとして抽出し、すべてのブロックを順番に出力する。
+
+
+            【条件】
+
+            1) ブロック開始条件: 行全体が 1〜12 の整数だけで構成されている行（例: `8`）を起点とする。
+
+            2) 起点の次の行は 1〜31 の整数（日）、次の行は曜日（例: 月/火/水/木/金/土/日）であることを想定して処理する。
+
+            3) ブロック終端は「完全な空行」またはテキスト末尾とする。
+
+            4) 各ブロック内の改行レイアウトは保持する。整形や並べ替えは行わない。
+
+            5) すべての該当ブロックを抽出し、元の出現順で連結して出力する。各ブロック間は空行1行で区切る。
+
+            6) ブロック外（直前）にある氏名・西暦日付（例: 2025/08/27）・「済」「未」等のメタ行は無視する（出力に含めない）。
+
+            7) 説明文や余計なテキストは一切出力しない。抽出結果のみ返す。
+
+
+            【入力例】
+
+            金松　玄晃
+
+            2025/08/27
+
+            済
+
+            8
+
+            27
+
+            水
+
+            EWT0900-1730/1200
+
+            08:12
+
+            08:30
+
+            18:07
+
+            18:01
+
+            18:00
+
+            +1.0h
+
+            1:00
+
+            1:00
+
+            1:00
+
+            8:30
+
+
+            8
+
+            28
+
+            木
+
+            EWT0900-1730/1200
+
+            08:30
+
+            17:00
+
+            リモートワーク
+
+            1:00
+
+            7:30
+
+
+            8
+
+            29
+
+            金
+
+            EWT0900-1730/1200
+
+            09:00
+
+            16:30
+
+            余裕をもった出勤
+
+            -1.0h
+
+            1:00
+
+            -1:00
+
+            -1:00
+
+            6:30
+
+
+            【出力例】
+
+            8
+
+            27
+
+            水
+
+            EWT0900-1730/1200
+
+            08:12
+
+            08:30
+
+            18:07
+
+            18:01
+
+            18:00
+
+            +1.0h
+
+            1:00
+
+            1:00
+
+            1:00
+
+            8:30
+
+
+            8
+
+            28
+
+            木
+
+            EWT0900-1730/1200
+
+            08:30
+
+            17:00
+
+            リモートワーク
+
+            1:00
+
+            7:30
+
+
+            8
+
+            29
+
+            金
+
+            EWT0900-1730/1200
+
+            09:00
+
+            16:30
+
+            余裕をもった出勤
+
+            -1.0h
+
+            1:00
+
+            -1:00
+
+            -1:00
+
+            6:30
+
+            '
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756429594607'
+      position:
+        x: 636
+        y: 245.5
+      positionAbsolute:
+        x: 636
+        y: 245.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_array_file: false
+        selected: false
+        title: テキスト抽出
+        type: document-extractor
+        variable_selector:
+        - '1756252012953'
+        - kixntai_txt
+      height: 91
+      id: '1756431858766'
+      position:
+        x: 333
+        y: 245.5
+      positionAbsolute:
+        x: 333
+        y: 245.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1756429594607'
+          - text
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt4o-dify-t000-240806
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: dd1c8e28-17b7-4470-9156-fe8b1fa27a17
+          role: system
+          text: '
+
+
+            あなたは与えられた日次勤怠データブロックから、必要な情報だけを抽出するAIです。
+
+
+            【入力データ】
+
+            {{#1756429594607.text#}}
+
+            【目的】
+
+            - 各ブロックのうち必要な情報だけを残し、不要な行や不要な文字を削除する。
+
+
+            【条件】
+
+            1. 「EWT」で始まる行は削除する。
+
+            2. 備考のような文章行（例：「情報開発研修のグループ会議のため仲町台事業所へ出勤」など）は削除する。
+
+            3. 「(未選択)」「法定外休日」「法定休日」を含むブロックは出力対象とするが、これらの文字列は削除する。
+
+            4. 上記以外の情報はそのまま残す。
+
+            5. 各ブロック内の改行レイアウトは保持する。
+
+            6. すべてのブロックを順番通りに出力する。
+
+            7. 各ブロックの間は1行空ける。
+
+            8. 説明文は一切出力せず、抽出結果のみ返す。
+
+
+            【出力例】
+
+
+            ### 入力例
+
+            8
+
+            1
+
+            金
+
+            EWT0900-1730/1200
+
+            08:40
+
+            08:50
+
+            09:00
+
+            17:41
+
+            17:32
+
+            17:30
+
+            情報開発研修のグループ会議のため仲町台事業所へ出勤
+
+            1:00
+
+            7:30
+
+
+            8
+
+            2
+
+            土
+
+            (未選択)
+
+            法定外休日
+
+
+            ### 出力例
+
+            8
+
+            1
+
+            金
+
+            08:40
+
+            08:50
+
+            09:00
+
+            17:41
+
+            17:32
+
+            17:30
+
+            1:00
+
+            7:30
+
+
+            8
+
+            2
+
+            土
+
+            '
+        selected: true
+        title: LLM 2
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756432324802'
+      position:
+        x: 939
+        y: 245.5
+      positionAbsolute:
+        x: 939
+        y: 245.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1756432324802'
+          - text
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt4o-dify-t000-240806
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 2b6d7a13-4086-44c7-8526-8bc8ba6d0cae
+          role: system
+          text: "\nあなたは与えられた勤怠データブロックから、不要な行を削除するAIです。\n\n【入力データ】\n{{#1756432324802.text#}}\n\
+            \n【目的】\n時刻や実働時間以外の「±記号付きの補正行」を削除して、きれいな勤怠データを作る。\n\n【条件】\n1. 行頭または行全体に\
+            \ **「+」または「-」** が含まれている行を削除する。\n   - 例: `+1.0h`, `-1.0h`, `-1.0`, `-0:30`,\
+            \ `+0.5h` など。\n2. それ以外の行はそのまま残す。\n3. 各ブロック内の改行レイアウトは保持する。\n4. すべてのブロックを順番通りに出力する。\n\
+            5. 説明文は不要で、抽出結果のみ返す。\n\n【出力例】\n\n### 入力例\n8\n6\n水\n08:11\n08:30\n18:06\n\
+            18:00\n18:00\n+1.0h\n1:00\n1:00\n1:00\n8:30\n\n### 出力例\n8\n6\n水\n08:11\n\
+            08:30\n18:06\n18:00\n18:00\n1:00\n1:00\n1:00\n8:30\n"
+        selected: false
+        title: LLM 3
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756433529515'
+      position:
+        x: 1242
+        y: 245.5
+      positionAbsolute:
+        x: 1242
+        y: 245.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt4o-dify-t000-240806
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: f636aeb2-87f5-4b8d-ad7e-3030d80d01ab
+          role: system
+          text: "あなたは与えられた勤怠データから、「開始時刻・終了時刻・実働時間」だけを抽出して3行構成に揃えるAIです。\n\n【入力データ】\n\
+            {{#1756433529515.text#}}\n\n【目的】\n各日付ブロックを3行構成に統一する。\n\n【条件】\n1. 各ブロックは「月」「日」「曜日」はそのまま残す。\n\
+            2. 開始時刻は、ブロック内の時刻行のうち「出勤系の所定開始時刻」を優先して選ぶ。\n   - 午前に時刻が複数ある場合は **2つ目**を使う。\n\
+            \   - 午前に1つしかない場合はその1つを使う。\n3. 終了時刻は、ブロック内の午後の時刻のうち「所定退勤時刻」を優先して選ぶ。\n\
+            \   - 午後に時刻が複数ある場合は **最後**または所定終了（通常17:30）に近いものを使う。\n   - 午後に1つしかない場合はその1つを使う。\n\
+            4. 実働時間（例: `7:30`, `8:00`など）はブロック末尾にある時間表記をそのまま使用する。\n5. 時刻や実働時間が存在しないブロックは、日付と曜日だけ残す。\n\
+            6. 出力形式は各ブロックを3行構成に統一し、ブロック間は1行空ける。\n7. 説明文や余計なテキストは出力せず、抽出結果のみ返す。\n\n\
+            【出力例】\n\n### 例1：午前・午後ともに時刻が3つある場合\n#### 入力\n8\n1\n金\n08:40\n08:50\n09:00\n\
+            17:41\n17:32\n17:30\n1:00\n7:30\n\n#### 出力\n8\n1\n金\n09:00\n17:30\n7:30\n\
+            \n---\n\n### 例2：午前に2つ、午後に2つの時刻がある場合\n#### 入力\n8\n4\n月\n08:12\n08:18\n\
+            08:30\n17:05\n17:00\n17:00\n1:00\n7:30\n\n#### 出力\n8\n4\n月\n08:30\n17:00\n\
+            7:30\n\n---\n\n### 例3：午前に1つだけ、午後に1つだけ時刻がある場合\n#### 入力\n8\n22\n金\n08:30\n\
+            17:00\n1:00\n7:30\n\n#### 出力\n8\n22\n金\n08:30\n17:00\n7:30\n\n---\n\n\
+            ### 例4：午前に2つ、午後に1つの時刻がある場合\n#### 入力\n8\n5\n火\n08:01\n08:30\n17:00\n1:00\n\
+            7:30\n\n#### 出力\n8\n5\n火\n08:30\n17:00\n7:30\n\n---\n\n### 例5：午後退勤が18:00台の延長勤務の場合\n\
+            #### 入力\n8\n6\n水\n08:11\n08:30\n18:06\n18:00\n18:00\n1:00\n1:00\n1:00\n\
+            8:30\n\n#### 出力\n8\n6\n水\n08:30\n18:00\n8:30\n\n---\n\n### 例6：休日ブロック（時刻情報なし）\n\
+            #### 入力\n8\n2\n土\n\n#### 出力\n8\n2\n土\n"
+        selected: false
+        title: LLM 4
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756433845707'
+      position:
+        x: 1545
+        y: 245.5
+      positionAbsolute:
+        x: 1545
+        y: 245.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1756433845707'
+          - text
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt4o-dify-t000-240806
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 3c399487-2dd9-4434-887b-4455a1301792
+          role: system
+          text: "あなたは与えられた勤怠ブロックを、三つの縦リスト（始業時間／終業時間／勤務時間）に整形して出力するAIです。推測や説明は一切出力してはいけません。\n\
+            \n【入力データ】\n{{#1756433845707.text#}}\n【前提】\n- 入力は「月 / 日 / 曜 / （始業候補群） /\
+            \ （終業候補群） / （勤務時間）」の順で、1日分が1ブロック。\n- ブロック同士は空行で区切られている。\n- 休日ブロックは「月 /\
+            \ 日 / 曜」だけ（時刻や勤務時間の行は無い）。\n- ±補正や備考は既に削除済み。\n\n【ゴール】\n- 全ブロックを走査し、始業・終業・勤務時間を“1日1値”に正規化してから、下記の厳密フォーマットで出力する。\n\
+            - 休日ブロックは空行（＝何も書かない行）として扱う。\n\n【厳密な抽出ルール（アルゴリズム）】\n時刻の判定はすべて正規表現 `^\\\
+            d{1,2}:\\d{2}$` に一致する行のみを対象とする（例: 7:30, 08:30, 17:00 は対象。7:3 や 0730 は対象外）。\n\
+            \n1) ブロックの抽出\n   - 入力テキストを「空行（完全な空行1行）」で分割する。\n   - 分割順序を厳密に保持する（並べ替え厳禁）。\n\
+            \n2) 各ブロック内の行分類\n   - 先頭3行は「月 / 日 / 曜」。以降に現れる `^\\d{1,2}:\\d{2}$` 形式の行を「時刻候補」とみなす。\n\
+            \   - そのブロックの「最終行にある `^\\d{1,2}:\\d{2}$`」を **勤務時間** とする（例: 7:30, 8:00\
+            \ 等）。該当しない場合は勤務時間は空欄。\n   - 勤務時間と判定した最終行は「時刻候補」から除外する（始業/終業の選定に使わない）。\n\
+            \n3) 始業の選び方（午前の“所定開始”を優先）\n   - 「午前」の定義：`00:00` 以上 `11:59` 以下。\n   - ブロック内の時刻候補のうち\
+            \ **午前（< 12:00）** をすべて抽出する。\n   - 午前が複数ある場合は **最も遅い午前時刻（＝AMの最大値）** を **始業**\
+            \ とする。\n     例：08:56, 07:18, 09:30 → 始業＝09:30\n   - 午前が1つだけならそれを始業とする。\n\
+            \   - 午前が一つも無い場合は、始業は空欄（特殊ケース）とする。\n\n4) 終業の選び方（午後の“所定終了”を優先）\n   - 「午後」の定義：`12:00`\
+            \ 以上 `23:59` 以下。\n   - ブロック内の時刻候補のうち **午後（>= 12:00）** をすべて抽出する。\n   -\
+            \ 午後が複数ある場合は **最も早い午後時刻（＝PMの最小値）** を **終業** とする。\n     例：18:20, 17:00\
+            \ → 終業＝17:00\n      　 18:06, 18:00, 18:00 → 終業＝18:00\n      　 17:41, 17:32,\
+            \ 17:30 → 終業＝17:30\n   - 午後が1つだけならそれを終業とする。\n   - 午後が一つも無い場合は、終業は空欄（特殊ケース）とする。\n\
+            \n5) 休日ブロック\n   - ブロック内に `^\\d{1,2}:\\d{2}$` が一つも無ければ、始業・終業・勤務時間はすべて空欄（＝縦リストでは空行）とする。\n\
+            \n6) 正規化\n   - すべての値は元の表記（ゼロ埋め有無）を維持してよい（08:30 と 8:30 が混在していても可）。\n  \
+            \ - ただし余分な空白は削除する。\n\n【少数ショット：入出力例（重要）】\n以下の例は“1日分のブロック”に対する期待動作を示す。実装ではこれらの規則を一般化して全ブロックに適用せよ。\n\
+            \n例A（AM 3つ / PM 3つ / 勤務時間あり）\n入力ブロック:\n8\n1\n金\n08:40\n08:50\n09:00\n\
+            17:41\n17:32\n17:30\n7:30\n解釈:\n- AM候補=08:40,08:50,09:00 → 最も遅いAM=**09:00**\
+            \ → 始業\n- PM候補=17:41,17:32,17:30 → 最も早いPM=**17:30** → 終業\n- 最後の時刻行=**7:30**\
+            \ → 勤務時間\n期待:\n始業=09:00 / 終業=17:30 / 勤務時間=7:30\n\n例B（AMが 08:56,07:18,09:30／PMが\
+            \ 17:49,17:30,17:30／勤務時間あり）\n入力ブロック:\n8\n7\n木\n08:56\n07:18\n09:30\n17:49\n\
+            17:30\n17:30\n7:00\n期待:\n- AM→ 最も遅いAM=**09:30** → 始業\n- PM→ 最も早いPM=**17:30**\
+            \ → 終業\n- 勤務時間=**7:00**\n\n例C（AM 1つ, PM 2つ）\n入力ブロック:\n8\n19\n火\n08:30\n\
+            18:20\n17:00\n7:30\n期待:\n- AM→ **08:30** → 始業\n- PM→ 18:20 と 17:00 → 最も早いPM=**17:00**\
+            \ → 終業\n- 勤務時間=**7:30**\n\n例D（AM 3つ, PM 2つ）\n入力ブロック:\n8\n20\n水\n07:49\n\
+            08:06\n08:30\n17:37\n17:30\n8:00\n期待:\n- AM→ 07:49,08:06,08:30 → 最も遅いAM=**08:30**\
+            \ → 始業\n- PM→ 17:37,17:30 → 最も早いPM=**17:30** → 終業\n- 勤務時間=**8:00**\n\n\
+            例E（休日ブロック：時刻なし）\n入力ブロック:\n8\n2\n土\n期待:\n- 始業=空欄 / 終業=空欄 / 勤務時間=空欄（＝縦リストでは空行）\n\
+            \n【最終出力の作り方】\n- すべてのブロックを上から順に処理して、（始業／終業／勤務時間）の“1日1値”を三つの配列に積む。\n- その三つの配列を、以下のフォーマットで**純粋テキストのみ**出力する（説明・マークダウン・コードフェンス禁止）。\n\
+            \n【出力フォーマット（厳守）】\n始業時間\n<各日の始業を上から順に1行ずつ。休日は空行>\n\n終業時間\n<各日の終業を上から順に1行ずつ。休日は空行>\n\
+            \n勤務時間\n<各日の勤務時間を上から順に1行ずつ。休日は空行>\n\n【禁止事項】\n- 解説・理由・注釈・余計な文字、マークダウン記号（例：```\
+            \ や #）を一切混在させない。\n- ブロック順序の変更や推測値の補完をしない。\n- 始業・終業・勤務時間の選定に、ここで定義した規則以外を用いない。\n"
+        selected: false
+        title: LLM 5
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756434666605'
+      position:
+        x: 1810.5
+        y: 367.5
+      positionAbsolute:
+        x: 1810.5
+        y: 367.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: -90.08666189236055
+      y: 227.7458414138864
+      zoom: 0.8705505663789769
