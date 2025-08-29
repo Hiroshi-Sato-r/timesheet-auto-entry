@@ -112,10 +112,32 @@ workflow:
         isInLoop: false
         sourceType: llm
         targetType: llm
-      id: 1756433529515-source-1756433845707-target
+      id: 1756433529515-source-1756440239299-target
       source: '1756433529515'
       sourceHandle: source
-      target: '1756433845707'
+      target: '1756440239299'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1756440239299-source-17564402550240-target
+      source: '1756440239299'
+      sourceHandle: source
+      target: '17564402550240'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 17564402550240-source-17564402622030-target
+      source: '17564402550240'
+      sourceHandle: source
+      target: '17564402622030'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -124,10 +146,10 @@ workflow:
         isInLoop: false
         sourceType: llm
         targetType: llm
-      id: 1756433845707-source-1756434666605-target
-      source: '1756433845707'
+      id: 17564402622030-source-1756443799019-target
+      source: '17564402622030'
       sourceHandle: source
-      target: '1756434666605'
+      target: '1756443799019'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -135,10 +157,10 @@ workflow:
         isInLoop: false
         sourceType: llm
         targetType: end
-      id: 1756434666605-source-1756252070631-target
-      source: '1756434666605'
+      id: 1756443799019-source-17564402695220-target
+      source: '1756443799019'
       sourceHandle: source
-      target: '1756252070631'
+      target: '17564402695220'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -168,29 +190,6 @@ workflow:
       positionAbsolute:
         x: 30
         y: 245.5
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 243
-    - data:
-        desc: ''
-        outputs:
-        - value_selector:
-          - '1756434666605'
-          - text
-          variable: text
-        selected: false
-        title: 終了
-        type: end
-      height: 89
-      id: '1756252070631'
-      position:
-        x: 2106.5
-        y: 235.5
-      positionAbsolute:
-        x: 2106.5
-        y: 235.5
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -566,7 +565,7 @@ workflow:
             土
 
             '
-        selected: true
+        selected: false
         title: LLM 2
         type: llm
         variables: []
@@ -580,7 +579,7 @@ workflow:
       positionAbsolute:
         x: 939
         y: 245.5
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -629,8 +628,54 @@ workflow:
       width: 243
     - data:
         context:
+          enabled: true
+          variable_selector:
+          - '1756433529515'
+          - text
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt4o-dify-t000-240806
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: a85c0a99-7ab4-46cc-84ce-af87b679314f
+          role: system
+          text: "あなたは与えられた勤怠データブロックから、不要な行を削除するAIです。\n\n【入力データ】\n{{#1756433529515.text#}}\n\
+            \n【目的】\n±記号付きの補正行と、10分刻みでない時刻行を削除して、きれいな勤怠データを作る。\n\n【条件】\n1. 行頭が「+」または「-」の行は削除する。\n\
+            \   - 例: +1.0h, -1.0h, -1.0, -0:30, +0.5h など。\n\n2. 10分刻みではない“時刻行”を削除する。\n\
+            \   - 対象: 行全体が時刻形式 `^\\d{1,2}:\\d{2}$` の行。\n   - 分が {00,10,20,30,40,50}\
+            \ 以外のものは削除。\n   - 削除例: 08:06, 08:12, 07:49, 17:32, 17:41, 18:07, 18:01\n\
+            \   - 残す例: 09:00, 08:30, 17:00, 17:30, 18:00, 1:00, 7:30\n\n3. 上記以外の行はそのまま残す。\n\
+            \n4. 各ブロック内の改行レイアウトは保持し、すべてのブロックを順番通りに出力する。\n\n5. 説明文は一切出力せず、抽出結果のみ返す。\n\
+            \n【正規表現メモ（参考。出力には含めない）】\n- ±行の検出: ^[+-].*\n- 非10分刻みの時刻: ^(?:[01]?\\d|2[0-3]):(?!00|10|20|30|40|50)\\\
+            d{2}$\n"
+        selected: false
+        title: LLM 6
+        type: llm
+        variables: []
+        vision:
           enabled: false
-          variable_selector: []
+      height: 89
+      id: '1756440239299'
+      position:
+        x: 1545
+        y: 245.5
+      positionAbsolute:
+        x: 1545
+        y: 245.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1756440239299'
+          - text
         desc: ''
         model:
           completion_params:
@@ -642,7 +687,7 @@ workflow:
         - id: f636aeb2-87f5-4b8d-ad7e-3030d80d01ab
           role: system
           text: "あなたは与えられた勤怠データから、「開始時刻・終了時刻・実働時間」だけを抽出して3行構成に揃えるAIです。\n\n【入力データ】\n\
-            {{#1756433529515.text#}}\n\n【目的】\n各日付ブロックを3行構成に統一する。\n\n【条件】\n1. 各ブロックは「月」「日」「曜日」はそのまま残す。\n\
+            {{#1756440239299.text#}}\n\n【目的】\n各日付ブロックを3行構成に統一する。\n\n【条件】\n1. 各ブロックは「月」「日」「曜日」はそのまま残す。\n\
             2. 開始時刻は、ブロック内の時刻行のうち「出勤系の所定開始時刻」を優先して選ぶ。\n   - 午前に時刻が複数ある場合は **2つ目**を使う。\n\
             \   - 午前に1つしかない場合はその1つを使う。\n3. 終了時刻は、ブロック内の午後の時刻のうち「所定退勤時刻」を優先して選ぶ。\n\
             \   - 午後に時刻が複数ある場合は **最後**または所定終了（通常17:30）に近いものを使う。\n   - 午後に1つしかない場合はその1つを使う。\n\
@@ -660,18 +705,18 @@ workflow:
             8:30\n\n#### 出力\n8\n6\n水\n08:30\n18:00\n8:30\n\n---\n\n### 例6：休日ブロック（時刻情報なし）\n\
             #### 入力\n8\n2\n土\n\n#### 出力\n8\n2\n土\n"
         selected: false
-        title: LLM 4
+        title: LLM 4 (1)
         type: llm
         variables: []
         vision:
           enabled: false
       height: 89
-      id: '1756433845707'
+      id: '17564402550240'
       position:
-        x: 1545
+        x: 1848
         y: 245.5
       positionAbsolute:
-        x: 1545
+        x: 1848
         y: 245.5
       selected: false
       sourcePosition: right
@@ -682,7 +727,7 @@ workflow:
         context:
           enabled: true
           variable_selector:
-          - '1756433845707'
+          - '17564402550240'
           - text
         desc: ''
         model:
@@ -695,9 +740,9 @@ workflow:
         - id: 3c399487-2dd9-4434-887b-4455a1301792
           role: system
           text: "あなたは与えられた勤怠ブロックを、三つの縦リスト（始業時間／終業時間／勤務時間）に整形して出力するAIです。推測や説明は一切出力してはいけません。\n\
-            \n【入力データ】\n{{#1756433845707.text#}}\n【前提】\n- 入力は「月 / 日 / 曜 / （始業候補群） /\
-            \ （終業候補群） / （勤務時間）」の順で、1日分が1ブロック。\n- ブロック同士は空行で区切られている。\n- 休日ブロックは「月 /\
-            \ 日 / 曜」だけ（時刻や勤務時間の行は無い）。\n- ±補正や備考は既に削除済み。\n\n【ゴール】\n- 全ブロックを走査し、始業・終業・勤務時間を“1日1値”に正規化してから、下記の厳密フォーマットで出力する。\n\
+            \n【入力データ】\n{{#17564402550240.text#}}\n【前提】\n- 入力は「月 / 日 / 曜 / （始業候補群）\
+            \ / （終業候補群） / （勤務時間）」の順で、1日分が1ブロック。\n- ブロック同士は空行で区切られている。\n- 休日ブロックは「月\
+            \ / 日 / 曜」だけ（時刻や勤務時間の行は無い）。\n\n\n【ゴール】\n- 全ブロックを走査し、始業・終業・勤務時間を“1日1値”に正規化してから、下記の厳密フォーマットで出力する。\n\
             - 休日ブロックは空行（＝何も書かない行）として扱う。\n\n【厳密な抽出ルール（アルゴリズム）】\n時刻の判定はすべて正規表現 `^\\\
             d{1,2}:\\d{2}$` に一致する行のみを対象とする（例: 7:30, 08:30, 17:00 は対象。7:3 や 0730 は対象外）。\n\
             \n1) ブロックの抽出\n   - 入力テキストを「空行（完全な空行1行）」で分割する。\n   - 分割順序を厳密に保持する（並べ替え厳禁）。\n\
@@ -732,25 +777,97 @@ workflow:
             \n勤務時間\n<各日の勤務時間を上から順に1行ずつ。休日は空行>\n\n【禁止事項】\n- 解説・理由・注釈・余計な文字、マークダウン記号（例：```\
             \ や #）を一切混在させない。\n- ブロック順序の変更や推測値の補完をしない。\n- 始業・終業・勤務時間の選定に、ここで定義した規則以外を用いない。\n"
         selected: false
-        title: LLM 5
+        title: LLM 5 (1)
         type: llm
         variables: []
         vision:
           enabled: false
       height: 89
-      id: '1756434666605'
+      id: '17564402622030'
       position:
-        x: 1810.5
-        y: 367.5
+        x: 2151
+        y: 245.5
       positionAbsolute:
-        x: 1810.5
-        y: 367.5
+        x: 2151
+        y: 245.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1756443799019'
+          - text
+          variable: text
+        selected: false
+        title: 終了 (1)
+        type: end
+      height: 89
+      id: '17564402695220'
+      position:
+        x: 2757
+        y: 245.5
+      positionAbsolute:
+        x: 2757
+        y: 245.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '17564402622030'
+          - text
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt4o-dify-t000-240806
+          provider: langgenius/azure_openai/azure_openai
+        prompt_template:
+        - id: 38a4f8cc-19c4-4174-9390-60edc2c432a1
+          role: system
+          text: "あなたは与えられた三つの縦リスト（始業時間／終業時間／勤務時間）テキストを整形するAIです。ここでは「勤務時間」リスト内の表記だけを置換し、他は一切変更しないこと。\n\
+            \n【入力データ】\n{{#17564402622030.text#}}\n\n【目的】\n「勤務時間」セクションにある `H:MM` 表記を、`H.M`\
+            \ の1桁小数風表記に変換する（例：`7:30` → `7.3`）。空行（休日）はそのまま空行として残す。始業時間／終業時間の数値は変更しない。\n\
+            \n【処理手順】\n1) 入力は次の三つのセクションから構成されると仮定する。順番もこの通り。\n   - セクション見出し：`始業時間`、その直後に値の縦リスト（空行を含む）\n\
+            \   - セクション見出し：`終業時間`、その直後に値の縦リスト（空行を含む）\n   - セクション見出し：`勤務時間`、その直後に値の縦リスト（空行を含む）\n\
+            \n2) セクション見出しで入力を三分割し、それぞれの「縦リスト」を行単位で処理する。\n\n3) 置換対象は **「勤務時間」セクションの各行のみ**。他セクションは行内容を一文字も変更しない（並びもそのまま）。\n\
+            \n4) 「勤務時間」セクションの各行について：\n   - 行が完全な空行なら、そのまま空行を出力する（休日）。\n   - 行が時刻形式\
+            \ `^\\d{1,2}:\\d{2}$` に一致しない場合は、そのまま出力する（ただし通常は与えられない）。\n   - 行が時刻形式に一致する場合、分（MM）に応じて次の変換を行い、`H.M`\
+            \ で出力する。\n     - `MM=00 → .0`、`MM=10 → .1`、`MM=20 → .2`、`MM=30 → .3`、`MM=40\
+            \ → .4`、`MM=50 → .5`\n     - 例：`7:00→7.0`、`7:10→7.1`、`7:20→7.2`、`7:30→7.3`、`8:00→8.0`、`8:30→8.3`\n\
+            \   - 時（H）はそのまま（先頭ゼロがあっても無くても可）。余分な空白は除去。\n\n5) 出力は、**見出し行（始業時間／終業時間／勤務時間）を含む元の構造・順序・空行数**を厳密に維持して返す。\n\
+            \n【禁止事項】\n- 始業時間・終業時間セクションの数値を書き換えない。\n- 行の並べ替えや削除、新規行の挿入をしない（空行も含めて保持）。\n\
+            - 説明文、コードフェンス、追加テキスト（例・注釈など）を一切出力に混在させない。\n\n【参考ミニ例（出力には含めない）】\n入力（勤務時間の一部）:\n\
+            7:30\n8:00\n\n出力（勤務時間の同じ位置）:\n7.3\n8.0\n"
+        selected: false
+        title: LLM 9
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756443799019'
+      position:
+        x: 2454
+        y: 245.5
+      positionAbsolute:
+        x: 2454
+        y: 245.5
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 243
     viewport:
-      x: -90.08666189236055
-      y: 227.7458414138864
-      zoom: 0.8705505663789769
+      x: 32.299324033550874
+      y: -48.48993947035717
+      zoom: 2
